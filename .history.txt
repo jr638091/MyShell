@@ -1,0 +1,6 @@
+ls
+cat
+history
+history
+cd ..
+cd shell
