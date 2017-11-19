@@ -4,3 +4,53 @@ history
 history
 cd ..
 cd shell
+ls
+history
+jobs
+cd "/home/snow/Documents/shell"
+cd /home/snow/Documents/shell
+history
+ls
+history
+exit
+
+
+ls &
+ls &
+sleep 5
+jobs
+sleep 5 &
+jobs
+jobs
+sleep 5 90 &
+jobs
+sleep 90 &
+jobs
+jobs
+sleep 5
+jobs
+sleep 10
+
+
+sleep 10 &
+jobs
+
+exit
+
+exit
+exit
+
+ping 127.0.0.1
+./shell.o
+ps
+ls
+history
+ls
+history
+
+history
+
+
+history
+
+history

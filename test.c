@@ -57,6 +57,8 @@ void basic(int fd_destiny) {
 }
 
 int main() {
-  history_path = "test.c";
-  show_history(1);
+  write(STDIN_FILENO, "hola", 4);
+  char *t = malloc(4);
+  read(STDIN_FILENO, t, 4);
+  write(STDOUT_FILENO, t, 4);
 }

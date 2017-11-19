@@ -15,6 +15,7 @@ struct proccess {
 };
 
 // varibles declaretions
+char *user_name;
 struct proccess *first;
 int c;
 char *code;
@@ -22,7 +23,7 @@ char *history_path;
 int pid;
 
 // Methods declarations
-void non_specific_user();
+void begin();
 void leer();
 void execute(char *args[], int fd_source, int fd_destiny);
 int execute_cmd(char *args[], int fd_source, int fd_destiny);
@@ -33,12 +34,15 @@ void show_proccess(int fd_destiny);
 void show_history(int fd_destiny);
 void write_history(char *cmd);
 char *itoa(int numbr);
+int parser(char *cmd);
+int ampersan(char *cmd);
 
 // My handlers
 void handlerctrC(int a) {
   if (pid > 0) {
     kill(pid, 9);
     rm_proccess(pid);
+    return;
   } else {
     write(STDOUT_FILENO, "\n", 1);
     exit(0);
@@ -63,42 +67,59 @@ char *get_history_path() {
 int main(int cargs, char *vargs[]) {
   history_path = get_history_path();
   code = malloc(500);
-  // leer();
-  // write(STDOUT_FILENO,code,c);
-
   signal(SIGINT, handlerctrC);
   signal(SIGCHLD, handler_end_proccess);
 
-  if (cargs == 1) {
-    non_specific_user();
-  }
+  if (cargs == 1)
+    user_name = "root\0";
 
+  else
+    user_name = vargs[1];
+
+  begin();
   return 0;
 }
 
-void non_specific_user() {
+void limpiar(char *cmd) {
+  for (int i = 0; i < strlen(cmd); i++) {
+    cmd[i] = '\0';
+  }
+}
+
+void make_user_dir(char *user_dir, char *user_name) {
+  for (int i = 0; i < strlen(user_name); ++i) {
+    user_dir[6 + i] = user_name[i];
+  }
+}
+
+void begin() {
   while (1) {
     char *cwd = malloc(500);
     getcwd(cwd, 500);
     pid = 0;
-    write(STDOUT_FILENO, cwd, strlen(cwd));
-    write(STDOUT_FILENO, "~:", 2);
+    char *user_dir = malloc(100);
+    limpiar(user_dir);
+    strcpy(user_dir, "/home/");
+    // make_user_dir(user_dir, user_name);
+    strcpy(user_dir + 6, user_name);
+    int len = strlen(user_dir);
+    if (strncmp(cwd, user_dir, len) == 0) {
+      user_dir[0] = '~';
+
+      strcpy(user_dir + 1, cwd + len);
+      fprintf(stderr, "\e[1;31m%s@%s\e[0;0m:\e[2;36m%s\e[0;0m$", user_name,
+              user_name, user_dir);
+    } else {
+      fprintf(stderr, "\e[1;31m%s@%s\e[0;0m:\e[2;36m%s\e[0;0m$", user_name,
+              user_name, cwd);
+    }
+    free(cwd);
+    free(user_dir);
+    limpiar(code);
     leer();
     write_history(code);
-    int count = 1;
-    char *token = strtok(code, " ");
-    char *b[500];
-    b[0] = token;
-    while ((token = strtok(NULL, " "))) {
-      b[count] = token;
-      ++count;
-    }
-    char *args[count + 1];
-    for (int i = 0; i < count; i++) {
-      args[i] = b[i];
-    }
-    args[count] = NULL;
-    execute(args, 0, 1);
+    if (!ampersan(code))
+      parser(code);
   }
 }
 
@@ -133,9 +154,12 @@ void execute(char *args[], int fd_source, int fd_destiny) {
       return;
     }
 
+    if (strcmp(args[0], "exit") == 0) {
+      exit(0);
+    }
+
     pid = fork();
     if (pid > 0) {
-      // add_proccess(pid, args[0]);
       int status = 0;
       int f = waitpid(pid, &status, 0);
     } else if (!pid) {
@@ -249,7 +273,7 @@ void show_history(int fd_destiny) {
 }
 
 void write_history(char *cmd) {
-  if (cmd[0] == ' ')
+  if (cmd[0] == ' ' && strlen(code) != 0)
     return;
   char t;
   int history_fd = open(history_path, O_CREAT | O_RDWR, S_IRWXU);
@@ -261,4 +285,42 @@ void write_history(char *cmd) {
   write(history_fd, "\n", 1);
   write(history_fd, cmd, strlen(cmd));
   close(history_fd);
+}
+
+int parser(char *cmd) {
+  int count = 1;
+  char *token = strtok(code, " ");
+  char *b[500];
+  b[0] = token;
+  while ((token = strtok(NULL, " "))) {
+    b[count] = token;
+    ++count;
+  }
+  char *args[count + 1];
+  for (int i = 0; i < count; i++) {
+    args[i] = b[i];
+  }
+  args[count] = NULL;
+  execute(args, 0, 1);
+  return 1;
+}
+
+int ampersan(char *cmd) {
+  int i = strlen(cmd) - 1;
+  while (cmd[i] == ' ') {
+    cmd[i] = '\0';
+    --i;
+  }
+  if (cmd[i] == '&') {
+    cmd[i] = '\0';
+    pid = fork();
+    if (pid > 0) {
+      add_proccess(pid, cmd);
+      return 1;
+    } else {
+      parser(cmd);
+      exit(0);
+    }
+  }
+  return 0;
 }
