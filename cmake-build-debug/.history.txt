@@ -1,9 +1,22 @@
-ls &
-ls &
-ls &
-ls &
 ls
-ls &
-jobs
-ping 127.0.0.1 &
-obs
+ls
+history
+history
+ls|grep l
+ls|grep l
+ls|grep l
+cd ~
+cd ~
+cd ~
+cd ~/
+cd ~/
+cd ~
+cd ~/
+cd /home/snow/
+cd /home/snow
+cd /home
+cd /home snow
+cd /home/snow
+cd ~
+cd ~
+cd ~

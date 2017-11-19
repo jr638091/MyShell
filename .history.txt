@@ -1,56 +1,38 @@
-ls
-cat
-history
-history
-cd ..
-cd shell
-ls
-history
-jobs
-cd "/home/snow/Documents/shell"
-cd /home/snow/Documents/shell
-history
-ls
-history
-exit
-
-
-ls &
-ls &
-sleep 5
-jobs
-sleep 5 &
-jobs
-jobs
-sleep 5 90 &
-jobs
-sleep 90 &
-jobs
-jobs
-sleep 5
-jobs
-sleep 10
-
-
-sleep 10 &
-jobs
-
-exit
-
-exit
-exit
-
+ls|grep l
+ls | grep l
+cd ~
+ping 127.0.0.1 &
+ping 127.0.0.1 &
 ping 127.0.0.1
-./shell.o
+sleep 100
+sleep 100 &
+history
+ping 127.0.0.1 &
+ping 127.0.0.1
 ps
+jobs
+ping 127.0.0.1 &
 ls
-history
+ping 127.0.0.1 &
+ping 127.0.0.1 &
+clear
+jobs
+ping 127.0.0.1
+ping 127.0.0.1
+ping 127.0.0.1 &
+jobs
+ping 127.0.0.1 &
+jobs
+clear
+ping 127.0.0.1 &
+jobs
 ls
-history
-
-history
-
-
-history
-
-history
+cd ~
+cd ~
+cd /home/snow
+cd /home/
+cd /home
+cd ~
+cd ~/
+cd ~
+cd ~/

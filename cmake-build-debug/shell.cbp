@@ -39,7 +39,7 @@
 			</Target>
 			<Target title="shell">
 				<Option output="/home/snow/Documents/shell/cmake-build-debug/shell" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/snow/Documents/shell/cmake-build-debug"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -62,7 +62,7 @@
 			</Target>
 			<Target title="shell/fast">
 				<Option output="/home/snow/Documents/shell/cmake-build-debug/shell" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/snow/Documents/shell/cmake-build-debug"/>
+				<Option working_dir=""/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
